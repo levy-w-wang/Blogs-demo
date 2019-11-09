@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.4" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.8.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DemoFrame_Basic\DemoFrame_Basic.csproj" />
+    <ProjectReference Include="..\DemoFrame_Biz\DemoFrame_Biz.csproj" />
+    <ProjectReference Include="..\DemoFrame_Controls\DemoFrame_Controls.csproj" />
+    <ProjectReference Include="..\DemoFrame_CoreMvc\DemoFrame_CoreMvc.csproj" />
+    <ProjectReference Include="..\DemoFrame_Dao\DemoFrame_Dao.csproj" />
+  </ItemGroup>
+
+</Project>
