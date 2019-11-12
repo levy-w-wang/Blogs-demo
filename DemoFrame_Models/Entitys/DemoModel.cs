@@ -6,7 +6,7 @@ using DemoFrame_Basic.Dependency;
 namespace DemoFrame_Models.Entitys
 {
     [Table(name: "Demo_Model")]
-    public class DemoModel : IEntityBase
+    public class DemoModel : EntityBase
     {
         [Key]
         //[DatabaseGenerated(DatabaseGeneratedOption.None)]//不自动增长   使用IdWorker生成

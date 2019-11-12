@@ -9,7 +9,7 @@ using DemoFrame_Basic.Dependency;
 namespace DemoFrame_Models.Entitys
 {
     [Table(name: "Test_Model")]
-    public class TestModel : IEntityBase
+    public class TestModel : EntityBase
     {
         [Key]
         public long Id { get; set; }

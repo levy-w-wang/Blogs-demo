@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DemoFrame_Biz\DemoFrame_Biz.csproj" />
     <ProjectReference Include="..\DemoFrame_CoreMvc\DemoFrame_CoreMvc.csproj" />
     <ProjectReference Include="..\DemoFrame_Models\DemoFrame_Models.csproj" />
   </ItemGroup>

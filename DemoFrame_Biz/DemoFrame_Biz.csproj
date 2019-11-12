@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DemoFrame_Dao\DemoFrame_Dao.csproj" />
+    <ProjectReference Include="..\DemoFrame_Models\DemoFrame_Models.csproj" />
+  </ItemGroup>
+
 </Project>
