@@ -10,6 +10,10 @@ namespace DemoFrame_Controls
 {
     public class CacheController : BaseController
     {
+        /// <summary>
+        /// 测试 MemoryCache 存储 获取
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("mecache")]
         public ActionResult MeCache()
@@ -19,8 +23,12 @@ namespace DemoFrame_Controls
             return Succeed(UserCache.Get(key));
         }
 
+        /// <summary>
+        /// 测试 redis 存储 获取
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        [Route("rediscache")]
+        [Route("rediscache")/*,Obsolete*/]
         public ActionResult RedisCacheTest()
         {
             var key = "redisTest";

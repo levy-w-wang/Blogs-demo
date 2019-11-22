@@ -4,6 +4,11 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>\Blogs-demo\DemoFrame_Controls\bin\Debug\netcoreapp2.2\DemoFrame_Controls.xml</DocumentationFile>
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\DemoFrame_Biz\DemoFrame_Biz.csproj" />
     <ProjectReference Include="..\DemoFrame_CoreMvc\DemoFrame_CoreMvc.csproj" />
