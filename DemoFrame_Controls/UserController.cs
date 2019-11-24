@@ -15,6 +15,10 @@ namespace DemoFrame_Controls
     [Route("api/[controller]")]
     public class UserController : BaseUserController
     {
+        /// <summary>
+        /// 用户登录，允许匿名访问，不需要验证
+        /// </summary>
+        /// <returns></returns>
         [HttpPost, Route("login"),AllowAnonymous]//AllowAnonymous加上这一句 为任何用户可访问，在基础控制器中有设置
         public ActionResult Login()
         {

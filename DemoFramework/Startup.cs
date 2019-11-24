@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using DemoFrame_Basic;
 using DemoFrame_Basic.Dependency;
 using DemoFrame_CoreMvc;
 using DemoFrame_CoreMvc.Filters;
 using DemoFrame_Dao;
+using DemoFramework_MainWeb.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +19,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using NLog.Web;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace DemoFramework_MainWeb
 {
@@ -46,6 +51,75 @@ namespace DemoFramework_MainWeb
 
             services.AddDbContext<DemoDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
             services.AddScoped<DemoDbContext>();
+
+            #region Swagger
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "API Doc",
+                    Description = "作者:Levy_w_Wang",
+                    //服务条款
+                    TermsOfService = "None",
+                    //作者信息
+                    Contact = new Contact
+                    {
+                        Name = "levy",
+                        Email = "levy_w_wang@qq.com",
+                        Url = "https://www.cnblogs.com/levywang"
+                    },
+                    //许可证
+                    License = new License
+                    {
+                        Name = "tim",
+                        Url = "https://www.cnblogs.com/levywang"
+                    }
+                });
+
+                #region XmlComments
+
+                var basePath1 = Path.GetDirectoryName(typeof(Program).Assembly.Location);//获取应用程序所在目录（绝对，不受工作目录(平台)影响，建议采用此方法获取路径）
+                //获取目录下的XML文件 显示注释等信息
+                var xmlComments = Directory.GetFiles(basePath1, "*.xml", SearchOption.AllDirectories).ToList();
+
+                foreach (var xmlComment in xmlComments)
+                {
+                    options.IncludeXmlComments(xmlComment);
+                }
+                #endregion
+
+                options.DocInclusionPredicate((docName, description) => true);
+
+                options.OperationFilter<SwaggerParameter>();
+
+                //options.AddSecurityDefinition("token", new ApiKeyScheme
+                //{
+                //    Description = "token format : {token}",//参数描述
+                //    Name = "token",//名字
+                //    In = "header",//对应位置
+                //    Type = "apiKey"//类型描述
+                //});
+                //options.AddSecurityDefinition("sid", new ApiKeyScheme
+                //{
+                //    Description = "sid format : {sid}",//参数描述
+                //    Name = "sid",//名字
+                //    In = "header",//对应位置
+                //    Type = "apiKey"//类型描述
+                //});
+                ////添加Jwt验证设置 设置为全局的，不然在代码中取不到
+                //options.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
+                //    { "token", Enumerable.Empty<string>() },
+                //    { "sid", Enumerable.Empty<string>() },
+                //});
+
+                options.IgnoreObsoleteProperties();//忽略 有Obsolete 属性的方法
+                options.IgnoreObsoleteActions();
+                options.DescribeAllEnumsAsStrings();
+            });
+            #endregion
+
             return IocManager.Instance.Initialize(services);
         }
 
@@ -85,8 +159,21 @@ namespace DemoFramework_MainWeb
             }
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());//允许跨域
             app.UseHttpsRedirection();
+
+            // Fetch errorInternal Server Error v1/swagger.json 错误  有方法未指明请求方式  GET POST
+            #region Swagger
+
+            app.UseSwagger(c => { c.RouteTemplate = "apidoc/{documentName}/swagger.json"; });
+            app.UseSwaggerUI(c =>
+            {
+                c.RoutePrefix = "apidoc";
+                c.SwaggerEndpoint("v1/swagger.json", "ContentCenter API V1");
+                c.DocExpansion(DocExpansion.None);//默认文档展开方式
+            });
+
+            #endregion
+
             app.UseMvc(routes => { routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"); });
-            //LogHelper.Logger.Debug("初始化完成");
             //app.UseMvc();
         }
 
